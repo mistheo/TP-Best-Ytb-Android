@@ -4,8 +4,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity
-public class PojoYoutubeVideo {
+public class PojoYoutubeVideo implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
