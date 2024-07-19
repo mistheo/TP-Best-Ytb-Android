@@ -80,7 +80,7 @@ public class DetailVideoActivity extends AppCompatActivity {
         // view
         tvTitle.setText("Titre: " + vYtb.getTitre());
         tvDesc.setText("Description: " + vYtb.getDescription());
-        tvLink.setText("Liens: " + vYtb.getUrl());
+        tvLink.setText("Liens: https://www.youtube.com/watch?v=" + vYtb.getUrl());
         tvCategorie.setText("Categorie: " + vYtb.getCategorie());
         this.setTitle("Detail de "+vYtb.getTitre());
     }
