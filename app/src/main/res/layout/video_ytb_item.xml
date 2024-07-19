@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp">
+    <TextView
+        android:id="@+id/recyclerItemTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight= "1"
+        android:padding="1dp"
+        tools:text="Titre de la video"
+        android:textFontWeight="@integer/material_motion_duration_long_2"
+        />
+    <TextView
+        android:id="@+id/recyclerItemDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="1dp"
+        tools:text="Description"/>
+</LinearLayout>
