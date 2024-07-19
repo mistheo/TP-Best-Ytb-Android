@@ -23,6 +23,7 @@ public class AddYoutubeVideoActivity extends AppCompatActivity {
     TextInputEditText inputDesc;
     TextInputEditText inputLink;
     Spinner spinCat;
+    PojoYoutubeVideo vYtb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class AddYoutubeVideoActivity extends AppCompatActivity {
         inputTitle = findViewById(R.id.inputTitre);
         spinCat = findViewById(R.id.spinnerCategorie);
         int state = getIntent().getIntExtra("mode",0);
+        long id = getIntent().getLongExtra("id",0);
+        vYtb = VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().find(id);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, new String[] {
@@ -45,14 +48,13 @@ public class AddYoutubeVideoActivity extends AppCompatActivity {
         spinCat.setAdapter(adapter);
 
         if (state == 1) {
-            inputDesc.setText(getIntent().getStringExtra("description"));
-            inputLink.setText(getIntent().getStringExtra("url"));
-            inputTitle.setText(getIntent().getStringExtra("title"));
+            inputDesc.setText(vYtb.getDescription());
+            inputLink.setText(vYtb.getUrl());
+            inputTitle.setText(vYtb.getTitre());
 
-            int spinnerPosition = adapter.getPosition(getIntent().getStringExtra("categorie"));
+            int spinnerPosition = adapter.getPosition(vYtb.getCategorie());
             spinCat.setSelection(spinnerPosition);
             btnSave.setText("MODIFIER");
-
         }
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +70,7 @@ public class AddYoutubeVideoActivity extends AppCompatActivity {
                 {
                     Toast.makeText(getApplicationContext(),"Certain elements semble invalide...",Toast.LENGTH_LONG);
                 } else {
-                    PojoYoutubeVideo vYtb = new PojoYoutubeVideo(
+                    PojoYoutubeVideo addVYtb = new PojoYoutubeVideo(
                             videoName,
                             videoDesc,
                             videoLink,
@@ -77,15 +79,14 @@ public class AddYoutubeVideoActivity extends AppCompatActivity {
                     );
 
                     if (state == 0) {
-                        VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().add(vYtb);
+                        VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().add(addVYtb);
                     }
                     else {
-                        PojoYoutubeVideo updatedVideo = VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().find(getIntent().getLongExtra("id",0));
-                        updatedVideo.setTitre(videoName);
-                        updatedVideo.setDescription(videoDesc);
-                        updatedVideo.setUrl(videoLink);
-                        updatedVideo.setCategorie(videoCat);
-                        VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().update(updatedVideo);
+                        vYtb.setTitre(videoName);
+                        vYtb.setDescription(videoDesc);
+                        vYtb.setUrl(videoLink);
+                        vYtb.setCategorie(videoCat);
+                        VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().update(vYtb);
                     }
                     finish();
                 }

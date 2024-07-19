@@ -71,21 +71,18 @@ public class DetailVideoActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+        super.onStart();
+
         // intent
-        title = getIntent().getStringExtra("title");
-        description = getIntent().getStringExtra("description");
-        url = "https://www.youtube.com/watch?v=" + getIntent().getStringExtra("url");
-        categorie = getIntent().getStringExtra("categorie");
-        favori = getIntent().getIntExtra("favori",0);
         id = getIntent().getLongExtra("id",0);
         vYtb = VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().find(id);
 
         // view
-        tvTitle.setText("Titre: " + title);
-        tvDesc.setText("Description: " + description);
-        tvLink.setText("Liens: " + url);
-        tvCategorie.setText("Categorie: " + categorie);
-        this.setTitle("Detail de "+title);
+        tvTitle.setText("Titre: " + vYtb.getTitre());
+        tvDesc.setText("Description: " + vYtb.getDescription());
+        tvLink.setText("Liens: " + vYtb.getUrl());
+        tvCategorie.setText("Categorie: " + vYtb.getCategorie());
+        this.setTitle("Detail de "+vYtb.getTitre());
     }
 
     //Manage Toolbar Menu
@@ -129,11 +126,6 @@ public class DetailVideoActivity extends AppCompatActivity {
         }
         if(item.getItemId() == R.id.ItemMenuModify) {
             Intent intent = new Intent(getApplicationContext(), AddYoutubeVideoActivity.class);
-            intent.putExtra("title", vYtb.getTitre());
-            intent.putExtra("description", vYtb.getDescription());
-            intent.putExtra("url", vYtb.getUrl());
-            intent.putExtra("categorie", vYtb.getCategorie());
-            intent.putExtra("favori",vYtb.getFavori());
             intent.putExtra("id",vYtb.getId());
             intent.putExtra("mode",1);
             startActivity(intent);
