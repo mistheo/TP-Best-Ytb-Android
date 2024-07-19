@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.setTitle("My Best Youtube");
+
 
         //Show Toolbar
         Toolbar toolbarMainMenu = findViewById(R.id.toolbarMainMenu);
@@ -36,14 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
         //Get Db videos
         List<PojoYoutubeVideo> videos = VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().list();
 
-        //Prends les infos de la video et les affiches sur le recyclerview avec l'adaptateur crée en amont
+        //Prends les infos de la video et les affiches sur le recyclerview avec l'adaptateur crée en amount
         VideoYoutubeAdapter videoYoutubeAdapter = new VideoYoutubeAdapter(videos);
         recyViewVideo.setAdapter(videoYoutubeAdapter);
     }
@@ -54,11 +55,13 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main_menu,menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.ItemMenuAddVideo) {
-            startActivity(new Intent(getApplicationContext(),ActivityAddaYoutubeActivity.class));
+            startActivity(new Intent(getApplicationContext(), AddYoutubeVideoActivity.class));
             return true;
+
         }
         return super.onOptionsItemSelected(item);
     }

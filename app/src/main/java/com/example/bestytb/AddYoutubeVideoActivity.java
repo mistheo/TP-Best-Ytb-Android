@@ -1,11 +1,12 @@
 package com.example.bestytb;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,7 +16,7 @@ import com.example.bestytb.databases.VideoYoutubeDatabase;
 import com.example.bestytb.pojo.PojoYoutubeVideo;
 import com.google.android.material.textfield.TextInputEditText;
 
-public class ActivityAddaYoutubeActivity extends AppCompatActivity {
+public class AddYoutubeVideoActivity extends AppCompatActivity {
 
     Button btnCancel;
     Button btnSave;
@@ -46,19 +47,26 @@ public class ActivityAddaYoutubeActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String videoName = inputTitle.getText().toString();
                 String videoDesc = inputDesc.getText().toString();
                 String videoLink = extractYouTubeID(inputLink.getText().toString());
                 String videoCat = spinCat.getSelectedItem().toString();
 
-                PojoYoutubeVideo vYtb = new PojoYoutubeVideo(
-                        videoName,
-                        videoDesc,
-                        videoLink,
-                        videoCat,
-                        0
-                );
-                //VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().add(vYtb);
+                if (videoName.isEmpty() || videoLink.isEmpty() || videoCat.isEmpty() || videoDesc.isEmpty())
+                {
+                    Toast.makeText(getApplicationContext(),"Certain elements semble invalide...",Toast.LENGTH_LONG);
+                } else {
+                    PojoYoutubeVideo vYtb = new PojoYoutubeVideo(
+                            videoName,
+                            videoDesc,
+                            videoLink,
+                            videoCat,
+                            0
+                    );
+                    VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().add(vYtb);
+                    finish();
+                }
             }
         });
 

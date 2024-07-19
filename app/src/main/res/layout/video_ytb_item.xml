@@ -1,23 +1,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp">
+
     <TextView
         android:id="@+id/recyclerItemTitle"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight= "1"
         android:padding="1dp"
         tools:text="Titre de la video"
-        android:textFontWeight="@integer/material_motion_duration_long_2"
-        />
+        android:textStyle="bold" />
+
     <TextView
         android:id="@+id/recyclerItemDescription"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:padding="1dp"
         tools:text="Description"/>
+
+<!--    <TextView-->
+<!--        android:id="@+id/recyclerItemLink"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:padding="1dp"-->
+<!--        tools:text="Link de la video"-->
+<!--        android:textColor="#0000FF"/>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/recyclerItemCategorie"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:padding="1dp"-->
+<!--        tools:text="Categorie"/>-->
+
+    <!-- barre horizontale de separation -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
+
 </LinearLayout>
