@@ -19,6 +19,9 @@ public interface VideoYoutubeDAO {
     @Query("Select * from pojoyoutubevideo")
     public List<PojoYoutubeVideo> list();
 
+    @Query("Select * from pojoyoutubevideo where favori > 0")
+    public List<PojoYoutubeVideo> listFav();
+
     @Insert
     public void add(PojoYoutubeVideo... pojoYoutubeVideos);
 

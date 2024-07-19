@@ -5,17 +5,38 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.example.bestytb.dao.VideoYoutubeDAO;
+import com.example.bestytb.databases.VideoYoutubeDatabase;
+import com.example.bestytb.pojo.PojoYoutubeVideo;
 
 
 public class DetailVideoActivity extends AppCompatActivity {
 
     Button btnPlayVideo;
+    TextView tvTitle;
+    TextView tvDesc;
+    TextView tvLink;
+    TextView tvCategorie;
+    PojoYoutubeVideo vYtb;
+
+    String title;
+    String description;
+    String url;
+    String categorie;
+    int favori;
+    long id;
+
     @Override
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,25 +44,16 @@ public class DetailVideoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_video);
         btnPlayVideo = findViewById(R.id.buttonPlayVideo);
 
+        // Toolbar
+        Toolbar toolbarDetailMenu = findViewById(R.id.toolbarDetail);
+        setSupportActionBar(toolbarDetailMenu);
+
         Log.d("Detail","DANS DETAIL ACTIVITY");
 
-        TextView tvTitle = findViewById(R.id.detailVideoTitle);
-        TextView tvDesc = findViewById(R.id.detailVideoDescription);
-        TextView tvLink = findViewById(R.id.detailVideoLink);
-        TextView tvCategorie = findViewById(R.id.detailVideoCategorie);
-
-        // Get data from intent
-        String title = getIntent().getStringExtra("title");
-        String description = getIntent().getStringExtra("description");
-        String url = "https://www.youtube.com/watch?v=" + getIntent().getStringExtra("url");
-        String categorie = getIntent().getStringExtra("categorie");
-
-        // Set data to views
-        tvTitle.setText(title);
-        tvDesc.setText(description);
-        tvLink.setText(url);
-        tvCategorie.setText(categorie);
-
+        tvTitle = findViewById(R.id.detailVideoTitle);
+        tvDesc = findViewById(R.id.detailVideoDescription);
+        tvLink = findViewById(R.id.detailVideoLink);
+        tvCategorie = findViewById(R.id.detailVideoCategorie);
 
         btnPlayVideo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +67,79 @@ public class DetailVideoActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    @Override
+    protected void onStart() {
+        // intent
+        title = getIntent().getStringExtra("title");
+        description = getIntent().getStringExtra("description");
+        url = "https://www.youtube.com/watch?v=" + getIntent().getStringExtra("url");
+        categorie = getIntent().getStringExtra("categorie");
+        favori = getIntent().getIntExtra("favori",0);
+        id = getIntent().getLongExtra("id",0);
+        vYtb = VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().find(id);
+
+        // view
+        tvTitle.setText("Titre: " + title);
+        tvDesc.setText("Description: " + description);
+        tvLink.setText("Liens: " + url);
+        tvCategorie.setText("Categorie: " + categorie);
+        this.setTitle("Detail de "+title);
+    }
+
+    //Manage Toolbar Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        if( vYtb.getFavori() == 0) {
+            menu.findItem(R.id.ItemMenuDelFavori).setVisible(false);
+            menu.findItem(R.id.ItemMenuAddFavori).setVisible(true);
+        }
+        else {
+            menu.findItem(R.id.ItemMenuDelFavori).setVisible(true);
+            menu.findItem(R.id.ItemMenuAddFavori).setVisible(false);
+        }
+        return super.onMenuOpened(featureId, menu);
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.ItemMenuAddFavori) {
+            vYtb.setFavori(1);
+            VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().update(vYtb);
+        }
+        if (item.getItemId() == R.id.ItemMenuDelFavori) {
+            vYtb.setFavori(0);
+            VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().update(vYtb);
+        }
+        if(item.getItemId() == R.id.ItemMenuBack)
+            finish();
+        if(item.getItemId() == R.id.ItemMenuDelete) {
+            VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().delete(vYtb);
+            finish();
+        }
+        if(item.getItemId() == R.id.ItemMenuModify) {
+            Intent intent = new Intent(getApplicationContext(), AddYoutubeVideoActivity.class);
+            intent.putExtra("title", vYtb.getTitre());
+            intent.putExtra("description", vYtb.getDescription());
+            intent.putExtra("url", vYtb.getUrl());
+            intent.putExtra("categorie", vYtb.getCategorie());
+            intent.putExtra("favori",vYtb.getFavori());
+            intent.putExtra("id",vYtb.getId());
+            intent.putExtra("mode",1);
+            startActivity(intent);
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 }

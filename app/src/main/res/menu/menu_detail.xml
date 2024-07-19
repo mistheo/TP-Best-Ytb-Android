@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Ajouter aux Favoris"
+        android:id="@+id/ItemMenuAddFavori"/>
+    <item android:title="Supprimer des favoris"
+        android:id="@+id/ItemMenuDelFavori"/>
+    <item android:title="Modifier"
+        android:id="@+id/ItemMenuModify"/>
+    <item android:title="Supprimer"
+        android:id="@+id/ItemMenuDelete"/>
+    <item android:title="Retourner Au Menu"
+        android:id="@+id/ItemMenuBack"/>
+</menu>

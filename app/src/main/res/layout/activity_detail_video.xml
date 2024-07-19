@@ -8,11 +8,22 @@
     android:layout_height="match_parent"
     tools:context=".DetailVideoActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/toolbarDetail"
         android:id="@+id/linearLayoutDetail"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".DetailVideoActivity">
 
         <TextView
@@ -40,6 +51,13 @@
 
         <TextView
             android:id="@+id/detailVideoCategorie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+            tools:text="Categorie"/>
+
+        <TextView
+            android:id="@+id/detailVideoFavori"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="1dp"

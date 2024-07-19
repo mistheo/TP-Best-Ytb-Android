@@ -38,6 +38,8 @@ public class VideoYoutubeAdapter extends RecyclerView.Adapter<VideoYoutubeAdapte
             intent.putExtra("description", video.getDescription());
             intent.putExtra("url", video.getUrl());
             intent.putExtra("categorie", video.getCategorie());
+            intent.putExtra("favori",video.getFavori());
+            intent.putExtra("id",video.getId());
             ctx.startActivity(intent);
         }
     }

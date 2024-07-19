@@ -17,7 +17,6 @@ import com.example.bestytb.pojo.PojoYoutubeVideo;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class AddYoutubeVideoActivity extends AppCompatActivity {
-
     Button btnCancel;
     Button btnSave;
     TextInputEditText inputTitle;
@@ -37,12 +36,24 @@ public class AddYoutubeVideoActivity extends AppCompatActivity {
         inputLink = findViewById(R.id.inputYtbURL);
         inputTitle = findViewById(R.id.inputTitre);
         spinCat = findViewById(R.id.spinnerCategorie);
+        int state = getIntent().getIntExtra("mode",0);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, new String[] {
                         "Humour", "Musique", "Jeux Video", "Sport", "Actu", "Culture" , "Mode & Beaute" , "Podcasts" , "Autre" });
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinCat.setAdapter(adapter);
+
+        if (state == 1) {
+            inputDesc.setText(getIntent().getStringExtra("description"));
+            inputLink.setText(getIntent().getStringExtra("url"));
+            inputTitle.setText(getIntent().getStringExtra("title"));
+
+            int spinnerPosition = adapter.getPosition(getIntent().getStringExtra("categorie"));
+            spinCat.setSelection(spinnerPosition);
+            btnSave.setText("MODIFIER");
+
+        }
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,10 +75,22 @@ public class AddYoutubeVideoActivity extends AppCompatActivity {
                             videoCat,
                             0
                     );
-                    VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().add(vYtb);
+
+                    if (state == 0) {
+                        VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().add(vYtb);
+                    }
+                    else {
+                        PojoYoutubeVideo updatedVideo = VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().find(getIntent().getLongExtra("id",0));
+                        updatedVideo.setTitre(videoName);
+                        updatedVideo.setDescription(videoDesc);
+                        updatedVideo.setUrl(videoLink);
+                        updatedVideo.setCategorie(videoCat);
+                        VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().update(updatedVideo);
+                    }
                     finish();
                 }
             }
+
         });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +99,6 @@ public class AddYoutubeVideoActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     public static String extractYouTubeID(String url) {
