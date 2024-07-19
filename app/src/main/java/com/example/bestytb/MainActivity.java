@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyViewVideo;
+    TextView txtNoFav;
     SwitchCompat swicthFav;
     VideoYoutubeAdapter videoYoutubeAdapter;
 
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //no fav
+        txtNoFav = findViewById(R.id.textNoFav);
 
         //Show Toolbar
         Toolbar toolbarMainMenu = findViewById(R.id.toolbarMainMenu);
@@ -48,6 +53,13 @@ public class MainActivity extends AppCompatActivity {
                     swicthFav.setText("On");
                     setTitle("My Best Youtube - Favoris");
                     List<PojoYoutubeVideo> vfav = VideoYoutubeDatabase.getDb(getApplicationContext()).videoYoutubeDAO().listFav();
+                    if (vfav.isEmpty()) {
+                        txtNoFav.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        txtNoFav.setVisibility(View.INVISIBLE);
+                    }
+
                     videoYoutubeAdapter = new VideoYoutubeAdapter(vfav);
                     recyViewVideo.setAdapter(videoYoutubeAdapter);
 

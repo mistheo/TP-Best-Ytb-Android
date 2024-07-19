@@ -11,9 +11,9 @@
         android:id="@+id/toolbarMainMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="@color/ytbRed"
+        app:titleTextColor="@color/white"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         />
@@ -28,6 +28,7 @@
         tools:context=".MainActivity">
     </androidx.recyclerview.widget.RecyclerView>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,19 +37,24 @@
 
         >
 
-        <TextView
-            android:id="@+id/textToggleFav"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Afficher les favoris" />
-
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switchToggleFav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Off" />
+
+
+        <TextView
+            android:visibility="invisible"
+            android:id="@+id/textNoFav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Aucun Favori Ajouté"
+            android:textColor="@color/gray"
+
+            />
+
     </LinearLayout>
 
 

@@ -68,6 +68,7 @@
     />
 
     <Button
+        android:background="@color/ytbRed"
         android:id="@+id/buttonAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -82,6 +83,7 @@
     />
 
     <Button
+        android:background="@color/ytbRed"
         android:id="@+id/buttonCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
